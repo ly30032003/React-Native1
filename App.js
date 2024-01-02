@@ -7,24 +7,32 @@ import {Cart} from "./Detail/Cart.js";
 import { CartIcon } from "./components/CartIcon.js";
 import Product from "./components/Product.js";
 import ProductDetails from "./Detail/ProductDetails.js";
-
+import Header from "./components/Header.js";
+import Login from "./components/Login.js";
 
 
 const Stack = createNativeStackNavigator();
 
 function App(){
+  
   return(
     <CartProvider>
+       
       <NavigationContainer>
+    
         <Stack.Navigator>
+    
+        <Stack.Screen  name="Header" component={Header} />
+       
           <Stack.Screen name="Products" component={Product}  options={({navigation}) => ({title: 'Products', headerRight: () => <CartIcon navigation={navigation} />})} />
           <Stack.Screen name="ProductDetails" component={ProductDetails}  options={({navigation}) => ({title: 'Products', headerRight: () => <CartIcon navigation={navigation} />})}  />
           <Stack.Screen name="Cart" component={Cart} options={({navigation}) => ({title: 'Products', headerRight: () => <CartIcon navigation={navigation} />})} />
-        
+     
+
         </Stack.Navigator>
       </NavigationContainer>
     </CartProvider>
-  )
+  );
 }
 
 const styles = StyleSheet.create({

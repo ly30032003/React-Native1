@@ -19,8 +19,8 @@ export function CartProvider(props) {
   }, []); // Empty dependency array ensures it only runs once on mount
   const increaseQuantity = (id) => {
     setItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id ? { ...item, qty: item.qty + 1 } : item
+    prevItems.map((item) =>
+    item.id === id ? { ...item, qty: item.qty + 1, totalPrice: item.totalPrice + item.product.price } : item
       )
     );
   };
@@ -28,9 +28,9 @@ export function CartProvider(props) {
   const decreaseQuantity = (id) => {
     setItems((prevItems) =>
       prevItems.map((item) =>
-        item.id === id && item.qty > 1
-          ? { ...item, qty: item.qty - 1 }
-          : item
+      item.id === id && item.qty > 0
+      ? { ...item, qty: item.qty - 1, totalPrice: item.totalPrice - item.product.price }
+      : item
       )
     );
   };
@@ -57,7 +57,7 @@ export function CartProvider(props) {
         return prevItems.map(item => {
           if (item.id === id) {
             item.qty++;
-           totalPrice += item.product.price;
+            item.totalPrice += item.product.price;
           }
           
           return item;
@@ -69,11 +69,6 @@ export function CartProvider(props) {
     });
   }
   
-  const removeFromCart = (index) => {
-    const newCartItems = [...cartItems];
-    newCartItems.splice(index, 1);
-    setCartItems(newCartItems);
-  };
   function removeItemFromCart(id) {
     setItems(prevItems => prevItems.filter(item => item.id !== id));
   }
@@ -91,5 +86,4 @@ export function CartProvider(props) {
       {props.children}
     </CartContext.Provider>
   );
-  
 }
